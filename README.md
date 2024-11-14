@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/LaboratoryOpticsBiosciences/napari-swc-reader/branch/main/graph/badge.svg)](https://codecov.io/gh/LaboratoryOpticsBiosciences/napari-swc-reader)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-swc-reader)](https://napari-hub.org/plugins/napari-swc-reader)
 
-A simple napari plugin to load swc file to napari viewer.
+A minimal napari plugin to load swc file to napari viewer.
 
 ----------------------------------
 
@@ -21,12 +21,24 @@ and review the napari docs for plugin developers:
 https://napari.org/stable/plugins/index.html
 -->
 
+## Features
+
+- Load swc file(s) to napari viewer
+- Display swc file(s) in napari viewer as points layers and lines layers
+- Size of points and lines are using the radius of the swc file
+
+Limitations:
+- Only support swc file(s) following specs http://www.neuronland.org/NLMorphologyConverter/MorphologyFormats/SWC/Spec.html 7 columns
+- Cannot write swc file(s) to disk but you can access the raw swc data from the napari layers from `metadata` attribute with key `raw_swc`
+
+Roadmap:
+- Switch to use `napari.layers.Graph` [when it is available](https://github.com/napari/napari/issues/4274)
+
 ## Installation
 
 You can install `napari-swc-reader` via [pip]:
 
     pip install napari-swc-reader
-
 
 
 To install latest development version :

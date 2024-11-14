@@ -3,7 +3,7 @@ display_name: napari-swc-reader
 # use 'hidden' to remove plugin from napari hub search results
 visibility: public
 # see https://napari.org/stable/plugins/manifest.html for valid categories
-categories: ["Annotation", "Segmentation", "Acquisition"]
+categories: ["IO"]
 contributions:
   commands:
     - id: napari-swc-reader.get_reader
@@ -15,8 +15,8 @@ contributions:
   readers:
     - command: napari-swc-reader.get_reader
       accepts_directories: false
-      filename_patterns: ['*.npy']
+      filename_patterns: ['*.swc']
   sample_data:
     - command: napari-swc-reader.make_sample_data
       display_name: napari-swc-reader
-      key: unique_id.1
+      key: 204-2-6nj.1
