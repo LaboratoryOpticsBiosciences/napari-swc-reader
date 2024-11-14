@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/LaboratoryOpticsBiosciences/napari-swc-reader/branch/main/graph/badge.svg)](https://codecov.io/gh/LaboratoryOpticsBiosciences/napari-swc-reader)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-swc-reader)](https://napari-hub.org/plugins/napari-swc-reader)
 
-A simple napari plugin to load swc file to napari viewer
+A simple napari plugin to load swc file to napari viewer.
 
 ----------------------------------
 
