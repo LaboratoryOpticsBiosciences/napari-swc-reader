@@ -16,14 +16,6 @@ A minimal napari plugin to load swc file to napari viewer.
 
 This [napari] plugin was generated with [copier] using the [napari-plugin-template].
 
-<!--
-Don't miss the full getting started guide to set up your new package:
-https://github.com/napari/napari-plugin-template#getting-started
-
-and review the napari docs for plugin developers:
-https://napari.org/stable/plugins/index.html
--->
-
 ## Features
 
 - Load swc file(s) to napari viewer
