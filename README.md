@@ -26,12 +26,13 @@ https://napari.org/stable/plugins/index.html
 - Load swc file(s) to napari viewer
 - Display swc file(s) in napari viewer as points layers and lines layers
 - Size of points and lines are using the radius of the swc file
+- You can load an example swc from https://neuromorpho.org/dableFiles/jacobs/CNG%20version/204-2-6nj.CNG.swc
 
-Limitations:
+**Limitations:**
 - Only support swc file(s) following specs http://www.neuronland.org/NLMorphologyConverter/MorphologyFormats/SWC/Spec.html 7 columns
 - Cannot write swc file(s) to disk but you can access the raw swc data from the napari layers from `metadata` attribute with key `raw_swc`
 
-Roadmap:
+**Roadmap:**
 - Switch to use `napari.layers.Graph` [when it is available](https://github.com/napari/napari/issues/4274)
 
 ## Installation
