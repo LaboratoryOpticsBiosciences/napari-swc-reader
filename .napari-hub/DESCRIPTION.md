@@ -8,7 +8,7 @@ If you need some help writing a good description, check out our
 
 ## Description
 
-This plugin provides a reader for swc files. It can load swc files to napari viewer as points layers and lines layers. The size of points and lines are using the radius of the swc file. You can load an example swc from https://neuromorpho.org/dableFiles/jacobs/CNG%20version/204-2-6nj.CNG.swc
+This minimal plugin provides a reader for swc files. It can load swc files to napari viewer as points layers and lines layers. The size of points and lines are using the radius of the swc file. You can load an example swc from https://neuromorpho.org/dableFiles/jacobs/CNG%20version/204-2-6nj.CNG.swc
 
 ![image](https://github.com/user-attachments/assets/1c9e5788-0e74-48ab-be0b-0fb74b35192c)
 
@@ -31,3 +31,4 @@ If you have any questions about the plugin, please [open an issue](https://githu
 
 Checkout this cool other ressources working with swc files and napari:
 - https://skeleton-analysis.org/stable/index.html
+- https://www.napari-hub.org/plugins/napari-tracing
