@@ -62,48 +62,15 @@ def reader_function(path):
         with open(_path) as f:
             file_content = f.read()
 
-        df = pd.read_csv(
-            io.StringIO(file_content),
-            sep=r"\s+",  # separator is any whitespace
-            comment="#",
-            # set columns names according to SWC format
-            # http://www.neuronland.org/NLMorphologyConverter/MorphologyFormats/SWC/Spec.html
-            names=[
-                "treenode_id",
-                "structure_id",
-                "x",
-                "y",
-                "z",
-                "r",
-                "parent_treenode_id",
-            ],
-            index_col=0,
-        )
-
-        radius = df["r"].values
-
-        # for each node create a point
-        nodes = df[["x", "y", "z"]].values
+        nodes, radius, lines = parse_data_from_swc_file(file_content)
 
         add_kwargs_points = {
             "n_dimensional": True,
             "size": radius,
             "metadata": {"raw_swc": file_content},
         }
+
         result.append((nodes, add_kwargs_points, "points"))  # points layer
-
-        # for each edge create a line
-        edges = df["parent_treenode_id"].values
-
-        # remove all soma nodes
-        nodes = nodes[edges != -1]
-        edges = edges[edges != -1]
-
-        # for each id in edges, get the corresponding node according to its index
-        prev_node = df.loc[edges][["x", "y", "z"]].values
-
-        lines = np.array([nodes, prev_node])
-        lines = np.moveaxis(lines, 0, 1)
 
         add_kwargs_shapes = {
             "shape_type": "line",
@@ -113,3 +80,138 @@ def reader_function(path):
         result.append((lines, add_kwargs_shapes, "shapes"))  # lines layer
 
     return result
+
+
+def parse_data_from_swc_file(file_content):
+    """Create layers from a swc file
+
+    Parameters
+    ----------
+    file_content : swc_content
+        Content of the swc file
+
+    Returns
+    -------
+    nodes : np.ndarray
+        All positions of the nodes
+    radius : np.ndarray
+        Radius of the nodes
+    lines : np.ndarray
+        All lines connecting the nodes
+    """
+
+    df = parse_swc_file(file_content)
+
+    nodes, radius = create_point_data_from_swc_data(df)
+    lines = create_line_data_from_swc_data(df)
+
+    return nodes, radius, lines
+
+
+def parse_swc_file(file_content):
+    """Parse a swc file and return a dataframe with the data.
+    Must have the following columns:
+    - treenode_id
+    - structure_id
+    - x
+    - y
+    - z
+    - r
+    - parent_treenode_id
+
+    Parameters
+    ----------
+    file_content : swc_content
+        Content of the swc file
+
+    Returns
+    -------
+    df : pd.DataFrame
+        Dataframe with the data extracted from the swc file
+    """
+
+    df = pd.read_csv(
+        io.StringIO(file_content),
+        sep=r"\s+",  # separator is any whitespace
+        comment="#",
+        # set columns names according to SWC format
+        # http://www.neuronland.org/NLMorphologyConverter/MorphologyFormats/SWC/Spec.html
+        names=[
+            "treenode_id",
+            "structure_id",
+            "x",
+            "y",
+            "z",
+            "r",
+            "parent_treenode_id",
+        ],
+        index_col=0,
+    )
+
+    return df
+
+
+def create_point_data_from_swc_data(df):
+    """Take a dataframe extracted from a swc and create point data
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Dataframe extracted from a swc file. Should have the following columns:
+        - x: x coordinate of the node
+        - y: y coordinate of the node
+        - z: z coordinate of the node
+        - r: radius of the node
+
+    Returns
+    -------
+    nodes : np.ndarray
+        All positions of the nodes
+    radius : np.ndarray
+        Radius of the nodes
+    """
+
+    radius = df["r"].values
+
+    # for each node create a point
+    nodes = df[["x", "y", "z"]].values
+
+    return nodes, radius
+
+
+def create_line_data_from_swc_data(df):
+    """Take a dataframe extracted from a swc and create line data
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Dataframe extracted from a swc file. Should have the following columns:
+        - x: x coordinate of the node
+        - y: y coordinate of the node
+        - z: z coordinate of the node
+        - r: radius of the node
+        - parent_treenode_id: id of the parent node
+
+    Returns
+    -------
+    lines : np.ndarray
+        All lines connecting the nodes
+    """
+
+    # for each node create a point
+    nodes = df[["x", "y", "z"]].values
+
+    # for each edge create a line
+    edges = df["parent_treenode_id"].values
+
+    # remove all soma nodes
+    nodes = nodes[edges != -1]
+    edges = edges[edges != -1]
+
+    # for each id in edges, get the corresponding node according to its index
+    prev_node = df.loc[edges][["x", "y", "z"]].values
+
+    lines = np.array([nodes, prev_node])
+    lines = np.moveaxis(lines, 0, 1)
+
+    return lines
