@@ -100,7 +100,7 @@ def parse_data_from_swc_file(file_content):
         All lines connecting the nodes
     """
 
-    df = parse_swc_file(file_content)
+    df = parse_swc_content(file_content)
 
     nodes, radius = create_point_data_from_swc_data(df)
     lines = create_line_data_from_swc_data(df)
@@ -108,7 +108,7 @@ def parse_data_from_swc_file(file_content):
     return nodes, radius, lines
 
 
-def parse_swc_file(file_content):
+def parse_swc_content(file_content):
     """Parse a swc file and return a dataframe with the data.
     Must have the following columns:
     - treenode_id
